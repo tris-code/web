@@ -1,0 +1,43 @@
+/*
+ * Copyright 2017 Tris Foundation and the project authors
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License
+ *
+ * See LICENSE.txt in the project root for license information
+ * See CONTRIBUTORS.txt for the list of the project authors
+ */
+
+import Test
+@testable import HTTP
+@testable import MVC
+
+class ApplicationTests: TestCase {
+    func testPartialUrl() {
+        final class TestController: Controller, Inject {
+            static func setup(router: MVC.Router<TestController>) throws {
+                router.route(get: "/:name/id/:number", to: handler)
+            }
+
+            struct Page: Decodable {
+                let name: String
+                let number: Int
+            }
+
+            func handler(page: Page) -> String {
+                return "\(page.name) - \(page.number)"
+            }
+        }
+
+        scope {
+            let application = HTTP.Application(basePath: "/api")
+            let mvcApplication = MVC.Application(basePath: "/v1")
+            try mvcApplication.addController(TestController.self)
+            application.addApplication(mvcApplication)
+
+            let request = Request(url: "/api/v1/news/id/2", method: .get)
+            let response = try application.process(request)
+            assertEqual(response.status, .ok)
+        }
+    }
+}
