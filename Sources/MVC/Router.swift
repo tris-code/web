@@ -151,7 +151,6 @@ public class Router<T: Controller> {
         for path: String,
         wrapping accessor: @escaping (T) -> (Model) throws -> ApiResult
     ) -> (Context) throws -> Void {
-        let keyValueDecoder = KeyValueDecoder()
         let urlMatcher = URLParamMatcher(path)
 
         if urlMatcher.params.count > 0 {
@@ -163,7 +162,7 @@ public class Router<T: Controller> {
                 let response = context.response
 
                 let values = urlMatcher.match(from: context.request.url.path)
-                let match = try keyValueDecoder.decode(Model.self, from: values)
+                let match = try Model(from: KeyValueDecoder(values))
                 let result = try handler(match)
                 try Coder.updateRespone(response, for: request, with: result)
             }
@@ -175,7 +174,7 @@ public class Router<T: Controller> {
                 let request = context.request
                 let response = context.response
 
-                let model = try Coder.decodeModel(Model.self, from: request)
+                let model = try Coder.decode(Model.self, from: request)
                 let result = try handler(model)
                 try Coder.updateRespone(response, for: request, with: result)
             }
@@ -187,7 +186,6 @@ public class Router<T: Controller> {
         for path: String,
         wrapping accessor: @escaping (T) -> (Model) throws -> Encodable
     ) -> (Context) throws -> Void {
-        let keyValueDecoder = KeyValueDecoder()
         let urlMatcher = URLParamMatcher(path)
 
         if urlMatcher.params.count > 0 {
@@ -196,7 +194,7 @@ public class Router<T: Controller> {
                 let handler = accessor(controller)
 
                 let values = urlMatcher.match(from: context.request.url.path)
-                let match = try keyValueDecoder.decode(Model.self, from: values)
+                let match = try Model(from: KeyValueDecoder(values))
                 let result = try handler(match)
                 switch result {
                 case let value as Optional<Any> where value == nil:
@@ -214,8 +212,7 @@ public class Router<T: Controller> {
                 let controller = try self.constructor(context)
                 let handler = accessor(controller)
 
-                let model = try Coder.decodeModel(
-                    Model.self, from: context.request)
+                let model = try Coder.decode(Model.self, from: context.request)
                 let result = try handler(model)
                 switch result {
                 case let value as Optional<Any> where value == nil:
@@ -236,7 +233,6 @@ public class Router<T: Controller> {
         for path: String,
         wrapping accessor: @escaping (T) -> (Model) throws -> Void
     ) -> (Context) throws -> Void {
-        let keyValueDecoder = KeyValueDecoder()
         let urlMatcher = URLParamMatcher(path)
 
         if urlMatcher.params.count > 0 {
@@ -245,7 +241,7 @@ public class Router<T: Controller> {
                 let handler = accessor(controller)
 
                 let values = urlMatcher.match(from: context.request.url.path)
-                let match = try keyValueDecoder.decode(Model.self, from: values)
+                let match = try Model(from: KeyValueDecoder(values))
                 try handler(match)
             }
         } else {
@@ -255,7 +251,7 @@ public class Router<T: Controller> {
 
                 let request = context.request
 
-                let model = try Coder.decodeModel(Model.self, from: request)
+                let model = try Coder.decode(Model.self, from: request)
                 try handler(model)
             }
         }
@@ -266,7 +262,6 @@ public class Router<T: Controller> {
         for path: String,
         wrapping accessor: @escaping (T) -> (Match, Model) throws -> ApiResult
     ) -> (Context) throws -> Void {
-        let keyValueDecoder = KeyValueDecoder()
         let urlMatcher = URLParamMatcher(path)
 
         guard urlMatcher.params.count > 0 else {
@@ -281,8 +276,8 @@ public class Router<T: Controller> {
             let response = context.response
 
             let values = urlMatcher.match(from: request.url.path)
-            let match = try keyValueDecoder.decode(Match.self, from: values)
-            let model = try Coder.decodeModel(Model.self, from: request)
+            let match = try Match(from: KeyValueDecoder(values))
+            let model = try Coder.decode(Model.self, from: request)
             let result = try handler(match, model)
             try Coder.updateRespone(response, for: request, with: result)
         }
@@ -293,7 +288,6 @@ public class Router<T: Controller> {
         for path: String,
         wrapping accessor: @escaping (T) -> (Match, Model) throws -> Encodable
     ) -> (Context) throws -> Void {
-        let keyValueDecoder = KeyValueDecoder()
         let urlMatcher = URLParamMatcher(path)
 
         guard urlMatcher.params.count > 0 else {
@@ -308,8 +302,8 @@ public class Router<T: Controller> {
             let response = context.response
 
             let values = urlMatcher.match(from: request.url.path)
-            let match = try keyValueDecoder.decode(Match.self, from: values)
-            let model = try Coder.decodeModel(Model.self, from: request)
+            let match = try Match(from: KeyValueDecoder(values))
+            let model = try Coder.decode(Model.self, from: request)
             let result = try handler(match, model)
             try Coder.updateRespone(
                 response,
@@ -323,7 +317,6 @@ public class Router<T: Controller> {
         for path: String,
         wrapping accessor: @escaping (T) -> (URLMatch, Model) throws -> Void
     ) -> (Context) throws -> Void {
-        let keyValueDecoder = KeyValueDecoder()
         let urlMatcher = URLParamMatcher(path)
 
         guard urlMatcher.params.count > 0 else {
@@ -335,8 +328,8 @@ public class Router<T: Controller> {
             let handler = accessor(controller)
 
             let values = urlMatcher.match(from: context.request.url.path)
-            let match = try keyValueDecoder.decode(URLMatch.self, from: values)
-            let model = try Coder.decodeModel(Model.self, from: context.request)
+            let match = try URLMatch(from: KeyValueDecoder(values))
+            let model = try Coder.decode(Model.self, from: context.request)
             try handler(match, model)
         }
     }
