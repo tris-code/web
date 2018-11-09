@@ -2,6 +2,7 @@ import XCTest
 
 extension ApplicationTests {
     static let __allTests = [
+        ("testConvenienceAPI", testConvenienceAPI),
         ("testPartialUrl", testPartialUrl),
     ]
 }
