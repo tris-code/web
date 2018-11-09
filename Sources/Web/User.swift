@@ -9,8 +9,8 @@
  *                                                                            *
  ******************************************************************************/
 
-import Crypto
-import struct Foundation.UUID
+import SHA1
+import UUID
 
 public protocol UserRepository {
     func get(id: String) throws -> User?
