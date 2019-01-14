@@ -1,10 +1,10 @@
 import XCTest
 
-import WebTests
 import MVCTests
+import WebTests
 
 var tests = [XCTestCaseEntry]()
-tests += WebTests.__allTests()
 tests += MVCTests.__allTests()
+tests += WebTests.__allTests()
 
 XCTMain(tests)
