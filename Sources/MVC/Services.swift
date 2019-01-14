@@ -1,14 +1,3 @@
-/******************************************************************************
- *                                                                            *
- * Tris Foundation disclaims copyright to this source code.                   *
- * In place of a legal notice, here is a blessing:                            *
- *                                                                            *
- *     May you do good and not evil.                                          *
- *     May you find forgiveness for yourself and forgive others.              *
- *     May you share freely, never taking more than you give.                 *
- *                                                                            *
- ******************************************************************************/
-
 public class Services {
     enum Error: Swift.Error {
         case typeMismatch(type: Any.Type, proto: Any.Type)

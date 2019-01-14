@@ -1,14 +1,3 @@
-/******************************************************************************
- *                                                                            *
- * Tris Foundation disclaims copyright to this source code.                   *
- * In place of a legal notice, here is a blessing:                            *
- *                                                                            *
- *     May you do good and not evil.                                          *
- *     May you find forgiveness for yourself and forgive others.              *
- *     May you share freely, never taking more than you give.                 *
- *                                                                            *
- ******************************************************************************/
-
 import HTTP
 
 public class Application {
@@ -84,12 +73,12 @@ extension Application {
     }
 
     public func addApplication(
-        basePath: String = "", 
+        basePath: String = "",
         middleware: [Middleware.Type] = [],
         configure: (MVC.Application) throws -> Void) rethrows
     {
         let application = MVC.Application(
-            basePath: basePath, 
+            basePath: basePath,
             middleware: self.middleware + middleware)
         try configure(application)
 
@@ -116,12 +105,12 @@ extension RouterProtocol {
 
 extension RouterProtocol {
     public func addApplication(
-        basePath: String = "", 
+        basePath: String = "",
         middleware: [Middleware.Type] = [],
         configure: (MVC.Application) throws -> Void) rethrows
     {
         let application = MVC.Application(
-            basePath: basePath, 
+            basePath: basePath,
             middleware: middleware)
         try configure(application)
         addApplication(application)
