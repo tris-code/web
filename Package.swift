@@ -7,21 +7,11 @@ let package = Package(
         .library(name: "Web", targets: ["Web"]),
     ],
     dependencies: [
-        .package(
-            url: "https://github.com/tris-code/log.git",
-            .branch("master")),
-        .package(
-            url: "https://github.com/tris-code/aio.git",
-            .branch("master")),
-        .package(
-            url: "https://github.com/tris-code/http.git",
-            .branch("master")),
-        .package(
-            url: "https://github.com/tris-code/crypto.git",
-            .branch("master")),
-        .package(
-            url: "https://github.com/tris-code/test.git",
-            .branch("master"))
+        .package(path: "../Log"),
+        .package(path: "../AIO"),
+        .package(path: "../HTTP"),
+        .package(path: "../Crypto"),
+        .package(path: "../Test")
     ],
     targets: [
         .target(
