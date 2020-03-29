@@ -93,7 +93,7 @@ import HTTP
 
 extension Application {
     func addHelloWorldRoute() {
-        route(get: "/plaintext") { request in 
+        route(get: "/plaintext") { request in
             return Response(string: "Hello, World")
         }
     }
@@ -132,7 +132,7 @@ The service can be either Context or :Injectable.
 
 NOTE: the ininializer arguments must have no labels.
 
-```swift 
+```swift
 import Web
 
 final class SimpleController: Controller, Inject2Services {
@@ -153,11 +153,11 @@ transient - new instance per request<br>
 let services = Servises.shared
 
 services.register(
-    singleton: MyImplementation.self, 
+    singleton: MyImplementation.self,
     as: SomeProtocol.self)
 
 services.register(
-    transient: MyImplementation.self, 
+    transient: MyImplementation.self,
     as: SomeProtocol.self)
 
 services.register(singleton: SomeProtocol.self) {
