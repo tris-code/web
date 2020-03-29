@@ -7,11 +7,11 @@ let package = Package(
         .library(name: "Web", targets: ["Web"]),
     ],
     dependencies: [
-        .package(path: "../Log"),
-        .package(path: "../AIO"),
-        .package(path: "../HTTP"),
-        .package(path: "../Crypto"),
-        .package(path: "../Test")
+        .package(path: "../log"),
+        .package(path: "../aio"),
+        .package(path: "../http"),
+        .package(path: "../crypto"),
+        .package(path: "../test")
     ],
     targets: [
         .target(
